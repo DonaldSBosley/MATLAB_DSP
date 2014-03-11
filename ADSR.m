@@ -33,7 +33,7 @@ else %nargin == 4
 end
 
 %% GENERATE ENVELOPE
-attackvec = linspace(0,1,round(fs*attack)); 
+attackvec = linspace(0,1,ceil(fs*attack)); 
 decayvec = linspace(1,sustain_value, ceil(fs*decay));
 sustainvec = sustain_value * ones(1, ceil(fs*sustain));
 releasevec = linspace(sustain_value,0,ceil(fs*release));

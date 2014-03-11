@@ -1,29 +1,26 @@
 %2013 Don Bosley - www.bosleymusic.com -
 %
-% Function_Generator uses additive synthesis (sum of sines), bandlimited by
-%   a user established sampling rate to create a wavefile
+% Signal_Generator uses additive synthesis (sum of sines), bandlimited by
+%   a user established sampling rate to create an output vector of samples
 %
 %Parameters/Arguments : 
 %   freq (float, 0 - fs/2) : the frequency of the wave in Hz
 %   type (integer, 1-6): 1)sine, 2)cosine, 3)triangle, 4)square, 5)sawtooth, 5)white noise
 %   time (float, > 0) : number of seconds
 %   fs (integer, < 0) : the sampling rate
-%   outputfile (string) : the name of the file to be written
 
 function [output] = Signal_Generator(freq, type, time, fs)
 %% ERROR CHECKING
 Nyquist = fs/2;
 % Number of arguments
-if nargin ~= 5
-    error('Incorrect Number of Arguments. Please type help SigGen for parameters and arguments');
+if nargin ~= 4
+    error('Signal_Generator : Incorrect Number of Arguments.');
 elseif (type > 6 || type < 1) % Type
-    error('type must be an integer between 1 and 6. Type help SigGen for type description');
+    error('Signal_Generator : type must be an integer between 1 and 6.');
 elseif (time < 0) % Time
-    error('time should be greater than 0 seconds');
+    error('Signal_Generator : time should be greater than 0 seconds');
 elseif (freq < 0 || freq > Nyquist) % Freq
-    error('freq should be greater than zero, but less than fs/2');
-elseif (ischar(outputfile) == 0) % Output File 
-    error('The output file name should be a string')
+    error('Signal_Generator : freq should be greater than zero, but less than fs/2');
 end
 
 %% ESTABLISH NUMBER OF OVERTONES
