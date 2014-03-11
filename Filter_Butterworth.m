@@ -1,5 +1,25 @@
-%Filter_Butterworth Summary of this function goes here
-%   Detailed explanation goes here
+%2013 Don Bosley - www.bosleymusic.com -
+%
+%Filter_Butterworth creates one of four second order butterworth filters
+%   and applies it to each channel of a signal
+%
+%Parameters/Arguments : 
+%   input : vector or matrix of samples
+%   fs (integer) :  sampling rate of the signal
+%   cutoff (float, > 0, < fs/2) : the cutoff frequency for the particular
+%       filter type
+%   type (string) : 'lp' = low-pass filter
+%                     'hp' = high-pass filter
+%                     'bp' = band-pass filter
+%                     'br' = band-reject filter
+%   BW (optional, 'bp' and 'br' only, >0, < 10): specifies bandwidth, 
+%       or Q of filter
+%
+%Outputs :
+%   output : filtered output
+%
+% NOTE : NO NORMALIZATION OR ADDITIONAL GAIN IS UTILIZED IN THIS FILTER
+%
 
 
 function [output] = Filter_Butterworth(input, fs, cutoff, type, BW)
@@ -22,7 +42,7 @@ end
 %% CHECK FILTER TYPES
 
 %Array of valid window types
-filttypes = char('lp','hp', 'bp', 'hr');
+filttypes = char('lp','hp', 'bp', 'br');
 comparison = 0; %Boolean, when true while loop below will stop
 k = 0;          %Counter so that the while loop doesn't overflow
 
@@ -80,12 +100,6 @@ switch type
         
 end
 
-%% PLACEHOLDER SAMPLES
-x_n = 0;
-x_n_1 = 0;
-%x_n_2 = 0;
-y_n_1 = 0;
-y_n_2 = 0;
 
 %% APPLY FILTER
 
@@ -102,13 +116,13 @@ for k = 1:numChans %Process each channel
      %Shift feedforward samples
      x_n_2 = x_n_1;   
      x_n_1 =  x_n;    
-     x_n = input(k,n); 
+     x_n = input(n, k); 
      %Calculate filter ouput
      output(k,n) = a_0 * x_n + a_1 * x_n_1 + a_2 * x_n_2...
                     + b_1 * y_n_1 + b_2 * y_n_2;  
      %Shift Feedback Samples           
      y_n_2 = y_n_1;
-     y_n_1 = output(k,n);
+     y_n_1 = output(n,k);
     end
     
 end
