@@ -44,7 +44,7 @@ end
 %% GET INPUT INFO, ENSURE INPUT IS A COLUMN VECTOR/MATRIX
 [numSamps, numChannels] = size(input);    %Id the number of channels
 
-if numChannels > numSamps
+if numChannels > numSamps              %Check for column orientation
     input = input';                    %Rotate
     [~, numChannels] = size(input);    %Re-Id the number of channels
 end
